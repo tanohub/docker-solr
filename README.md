@@ -51,11 +51,11 @@ solr@a2ccf9071cda:$ bin/post -c books_solr1-2_01 /tmp/solr-collections/books/boo
 | Service   | Note |
 | :---      | :--- |
 | http://localhost:8981 | solr node1 |
-| http://localhost:8081 | solr node1 - ui web |
+| http://localhost:8081/commands | solr node1 - ui web |
 | http://localhost:8982 | solr node2 |
-| http://localhost:8082 | solr node2 - ui web |
+| http://localhost:8082/commands | solr node2 - ui web |
 | http://localhost:8983 | solr node3 |
-| http://localhost:8083 | solr node3 - ui web |
+| http://localhost:8083/commands | solr node3 - ui web |
 | | |
 | tcp://localhost:2181 \ 7001 | zookeeper node1 |
 | tcp://localhost:2182 \ 7002 | zookeeper node2 |
