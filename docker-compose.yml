@@ -12,10 +12,14 @@ services:
       # force local timezone
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
+      # custom collections \ schema
+      - "./data/solr/collections/:/tmp/solr-collections/"
     depends_on:
       - zoo1
       - zoo2
       - zoo3
+    networks:
+      - solr
 
   solr2:
     image: solr:${SOLR_VERSION}
@@ -33,6 +37,8 @@ services:
       - zoo1
       - zoo2
       - zoo3
+    networks:
+      - solr
 
   solr3:
     image: solr:${SOLR_VERSION}
@@ -50,6 +56,8 @@ services:
       - zoo1
       - zoo2
       - zoo3
+    networks:
+      - solr
 
   zoo1:
     image: zookeeper:${ZOO_VERSION}
@@ -58,6 +66,7 @@ services:
     ports:
       - 2181:2181
       - 7001:7000
+      - 8081:8080
     volumes:
       # force local timezone
       - "/etc/timezone:/etc/timezone:ro"
@@ -67,6 +76,8 @@ services:
       ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
       ZOO_4LW_COMMANDS_WHITELIST: mntr, conf, ruok
       ZOO_CFG_EXTRA: "metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider metricsProvider.httpPort=7000 metricsProvider.exportJvmInfo=true"
+    networks:
+      - solr
 
   zoo2:
     image: zookeeper:${ZOO_VERSION}
@@ -75,6 +86,7 @@ services:
     ports:
       - 2182:2181
       - 7002:7000
+      - 8082:8080
     volumes:
       # force local timezone
       - "/etc/timezone:/etc/timezone:ro"
@@ -84,6 +96,8 @@ services:
       ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
       ZOO_4LW_COMMANDS_WHITELIST: mntr, conf, ruok
       ZOO_CFG_EXTRA: "metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider metricsProvider.httpPort=7000 metricsProvider.exportJvmInfo=true"
+    networks:
+      - solr
 
   zoo3:
     image: zookeeper:${ZOO_VERSION}
@@ -92,6 +106,7 @@ services:
     ports:
       - 2183:2181
       - 7003:7000
+      - 8083:8080
     volumes:
       # force local timezone
       - "/etc/timezone:/etc/timezone:ro"
@@ -101,4 +116,8 @@ services:
       ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
       ZOO_4LW_COMMANDS_WHITELIST: mntr, conf, ruok
       ZOO_CFG_EXTRA: "metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider metricsProvider.httpPort=7000 metricsProvider.exportJvmInfo=true"
+    networks:
+      - solr
 
+networks:
+  solr:
